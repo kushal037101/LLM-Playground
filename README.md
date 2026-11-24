@@ -1,22 +1,31 @@
 # LLM Playground
 
-> A responsive AI engineering workbench featuring a real-time **Prompt Analyzer** and browser-native **Text to Speech** synthesis with an audio frequency waveform visualizer.
+> A responsive AI engineering workbench featuring a real-time **Prompt Analyzer** and browser-native **Text to Speech** synthesis with an audio frequency waveform visualizer and optional client-side **LLM API integration**.
 
 ![Design Aesthetic](https://img.shields.io/badge/Style-Dark%20Glow%20UI-4f7cff?style=flat-square)
 ![Stack](https://img.shields.io/badge/Tech-Vanilla%20JS%20%7C%20CSS3%20%7C%20Web%20Speech%20API-9b5cff?style=flat-square)
+![Privacy](https://img.shields.io/badge/Privacy-Zero%20Hardcoded%20Keys-00e699?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-00d4ff?style=flat-square)
 
 ---
 
-## Overview
+## 🔒 Security & API Key Policy
 
-**LLM Playground** is designed for prompt engineers, developers, and AI enthusiasts. It provides an offline, client-side suite of tools designed with a dark interface featuring electric blue and purple gradients, ambient glow effects, glassmorphic cards, and responsive layouts.
+**Zero hardcoded API keys.**
+- The source code contains **no API keys**.
+- The app operates **100% locally and offline by default** using fast heuristic evaluation and Web Speech synthesis.
+- To use Live AI generation (Google Gemini, OpenAI, Groq, or OpenRouter), **users manually enter their own API key** via the UI (**API Key** button in the header).
+- **Client-Side Storage Only**: Keys are stored exclusively in the user's browser `localStorage` and are used only for direct HTTPS requests from the browser to the selected provider's official API. No intermediate backend, proxy, or logging server is involved.
+- Keys can be verified with the **Test Connection** button or deleted at any time with **Clear Key**.
 
 ---
 
 ## Features
 
 ### 1. 🔍 Prompt Analyzer
+- **Dual Engine Architecture**:
+  - **⚡ Instant Local Engine**: Evaluates prompts offline with zero API key requirement using heuristic rule sets.
+  - **🤖 Live AI Model Engine**: When an API key is entered manually, uses actual LLMs (Gemini 1.5 Flash/Pro, GPT-4o-mini, Llama 3.3, etc.) to perform deep prompt engineering and restructuring.
 - **Real-Time Heuristic Scoring**: Calculates a dynamic **Clarity Score (0–100%)** rendered on an animated circular SVG gauge.
 - **Four Core Architectural Pillars**:
   - **Clear Goal & Objective**: Detects strong action verbs (e.g. *Build, Refactor, Evaluate, Extract*) and target subjects.
@@ -41,6 +50,17 @@
 
 ---
 
+## Supported AI Providers (Manual Entry)
+
+| Provider | Supported Models | Key Destination |
+|---|---|---|
+| **Google Gemini** (Recommended) | `gemini-1.5-flash`, `gemini-1.5-pro`, `gemini-2.0-flash-exp` | [Google AI Studio](https://aistudio.google.com/app/apikey) |
+| **OpenAI** | `gpt-4o-mini`, `gpt-4o`, `gpt-3.5-turbo` | [OpenAI Platform](https://platform.openai.com/api-keys) |
+| **Groq** | `llama-3.3-70b-versatile`, `llama-3.1-8b-instant` | [Groq Console](https://console.groq.com/keys) |
+| **OpenRouter** | `meta-llama/llama-3.3-70b-instruct`, `anthropic/claude-3.5-sonnet` | [OpenRouter Keys](https://openrouter.ai/keys) |
+
+---
+
 ## Getting Started
 
 No build step, node modules, or bundler required. Simply clone the repository and open `index.html` in any modern web browser:
@@ -57,11 +77,12 @@ open index.html
 
 ```
 LLM-Playground/
-├── index.html            # Main workbench layout with inline SVGs and accessible controls
-├── README.md             # Project documentation
+├── index.html            # Main workbench layout with inline SVGs and API Key Modal
+├── README.md             # Project documentation & security policy
 ├── css/
-│   └── style.css         # Dark theme, glow shadows, gradients, and responsive breakpoints
+│   └── style.css         # Dark theme, glow shadows, gradients, and modal dialog styles
 └── js/
+    ├── api.js            # Client-side API key manager & direct provider fetch handler
     ├── analyzer.js       # Heuristic prompt analysis engine and structure generator
     ├── tts.js            # Web Speech API controller with canvas visualizer & karaoke tracker
     └── app.js            # Workspace controller, view transitions, presets, and clipboard toasts
